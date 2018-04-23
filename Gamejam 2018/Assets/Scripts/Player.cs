@@ -39,7 +39,7 @@ public class Player : MonoBehaviour {
 		//shooting
 		if(Input.GetKey(KeyCode.Space) && Time.time - lastShot > bulletTimer){
 			lastShot = Time.time;
-			Instantiate(bullet, transform.position+(transform.up * (collider.size.y)), transform.rotation);
+			Instantiate(bullet, transform.position + (transform.up * (collider.size.y)), transform.rotation);
 		}
 	}
 

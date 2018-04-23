@@ -6,7 +6,6 @@ using UnityEngine;
 public class EnemyBullet : MonoBehaviour{
 	Vector3 moveDir = Vector3.zero;
 	Rigidbody rigidbody;
-	float timer;
 
 	public float speed;
 	public float aliveTime;
@@ -15,7 +14,6 @@ public class EnemyBullet : MonoBehaviour{
 	// Use this for initialization
 	void Awake(){
 		rigidbody = GetComponent<Rigidbody>();
-		timer = Time.time + aliveTime;
 	}
 
 	// Update is called once per frame

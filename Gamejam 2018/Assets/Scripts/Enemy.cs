@@ -40,9 +40,7 @@ public class Enemy : MonoBehaviour {
 		float dist = Vector3.Distance(target.position, transform.position);
 		if(Time.time - lastShot > bulletTimer && dist <= shootDist){
 			lastShot = Time.time;
-			var tmpBullet = Instantiate(bullet, transform.position+(transform.forward * collider.size.y), transform.rotation);
-			var targetDir = target.position - transform.position;
-			angleBetween = Vector3.Angle(transform.up, targetDir);
+			var tmpBullet = Instantiate(bullet, transform.position + (transform.forward * collider.size.y), transform.rotation);
 		}
 	}
 
