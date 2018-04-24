@@ -5,7 +5,7 @@ using UnityEngine;
 //[RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour {
 
-	CharacterController controller = null;
+	//CharacterController controller = null;
 	Rigidbody rb = null;
 	Vector3 moveDir = Vector3.zero;
 	BoxCollider collider = null;
@@ -19,8 +19,8 @@ public class Player : MonoBehaviour {
 	public float bulletTimer;
 
 	void Start () {
-		controller = GetComponent<CharacterController>();
-		//rb = GetComponent<Rigidbody>();
+		//controller = GetComponent<CharacterController>();
+		rb = GetComponent<Rigidbody>();
 		collider = GetComponent<BoxCollider>();
 	}
 	
@@ -34,15 +34,17 @@ public class Player : MonoBehaviour {
 		float Vertical = Input.GetAxis("Vertical");
 		float Turn = Input.GetAxis("Horizontal");
 		//Movement and rotation values of ship set in moveDir
-		moveDir = new Vector3(0, Vertical, 0);
-		moveDir = transform.TransformDirection(moveDir);
-		moveDir *= moveSpeed;
-		transform.Rotate(Vector3.forward * -Turn * rotationSpeed);
+		//moveDir = new Vector3(0, Vertical, 0);
+		//moveDir = transform.TransformDirection(moveDir);
+		//moveDir *= moveSpeed;
+		//transform.Rotate(Vector3.forward * -Turn * rotationSpeed);
 
 		//rigidbody movement
-		//force = transform.up * Vertical * moveSpeed;
-		//transform.Rotate(0, 0, -Turn * rotationSpeed);
-		//rb.AddForce(force);
+		force = transform.up * Vertical * moveSpeed;
+		transform.Rotate(0, 0, -Turn * rotationSpeed);
+		rb.AddForce(force);
+		ClampVelocity();
+		Debug.Log(rb.velocity);
 
 		//shooting
 		if(Input.GetKey(KeyCode.Space) && Time.time - lastShot > bulletTimer){
@@ -52,12 +54,15 @@ public class Player : MonoBehaviour {
 	}
 
 	void ClampVelocity(){
+		float x = Mathf.Clamp(rb.velocity.x, -moveSpeed, moveSpeed);
+		float y = Mathf.Clamp(rb.velocity.y, -moveSpeed, moveSpeed);
 
+		rb.velocity = new Vector3(x, y, 0);
 	}
 
 	void FixedUpdate(){
 		//Ship movement
-		controller.Move(moveDir * Time.deltaTime);
+		//controller.Move(moveDir * Time.deltaTime);
 
 		//rigidbody movement
 	}
