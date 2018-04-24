@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour {
 	public float speed;
 	public float hp;
 	public float stopDistance;
+	public float maxDist;
 	public float bulletTimer;
 	public float shootDist;
 
@@ -32,23 +33,32 @@ public class Enemy : MonoBehaviour {
 		}
 
 		//sets movement up
-		moveDir = target.transform.position - transform.position;
-		moveDir *= speed;
-		transform.LookAt(target);
+		if(target != null)
+		{
+			moveDir = target.transform.position - transform.position;
+			moveDir *= speed;
+			transform.LookAt(target);
 
-		//shooting at player when within range
-		float dist = Vector3.Distance(target.position, transform.position);
-		if(Time.time - lastShot > bulletTimer && dist <= shootDist){
-			lastShot = Time.time;
-			var tmpBullet = Instantiate(bullet, transform.position + (transform.forward * collider.size.y), transform.rotation);
+			//shooting at player when within range
+			float dist = Vector3.Distance(target.transform.position, transform.position);
+			if(Time.time - lastShot > bulletTimer && dist <= shootDist)
+			{
+				lastShot = Time.time;
+				var tmpBullet = Instantiate(bullet, transform.position + (transform.forward * collider.size.y), transform.rotation);
+			}
 		}
 	}
 
 	void FixedUpdate(){
 		//will move towards the target until the distance between them is smaller than given stopping distance
-		float dist = Vector3.Distance(target.position, transform.position);
-		if(dist >= stopDistance && moveDir != Vector3.zero){
-			controller.Move(moveDir.normalized * speed * Time.deltaTime);
+		if(target != null)
+		{
+			float dist = Vector3.Distance(target.position, transform.position);
+			if(dist <= maxDist && dist >= stopDistance && moveDir != Vector3.zero)
+			{
+				controller.Move(moveDir.normalized * speed * Time.deltaTime);
+			}
 		}
+
 	}
 }

@@ -9,7 +9,7 @@ public class EnemyBullet : MonoBehaviour{
 
 	public float speed;
 	public float aliveTime;
-	public float damage;
+	public int damage;
 
 	// Use this for initialization
 	void Awake(){
@@ -28,7 +28,7 @@ public class EnemyBullet : MonoBehaviour{
 		//if it collides with an enemy, it despawns
 		Player tmp = collision.gameObject.GetComponent<Player>();
 		if(tmp != null && collision.gameObject.layer == 9){
-			tmp.hp -= damage;
+			tmp.currHP -= damage;
 			Destroy(transform.gameObject);
 		}
 	}

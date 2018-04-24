@@ -2,49 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour {
 
-	//CharacterController controller = null;
+	CharacterController controller = null;
 	Rigidbody rb = null;
 	Vector3 moveDir = Vector3.zero;
 	BoxCollider collider = null;
 	float lastShot = 0;
 	Vector3 force = Vector3.zero;
+	public int currHP;
 
-	public float hp;
+	public int maxHp;
 	public float moveSpeed;
 	public float rotationSpeed;
 	public Transform bullet;
 	public float bulletTimer;
 
 	void Start () {
-		//controller = GetComponent<CharacterController>();
-		rb = GetComponent<Rigidbody>();
+		currHP = maxHp;
+		controller = GetComponent<CharacterController>();
 		collider = GetComponent<BoxCollider>();
 	}
 	
 
 	void Update () {
 		//if dead, does nothing rn just destrpys player object
-		if(hp <= 0){
+		if(currHP <= 0){
+			currHP = 0;
 			Destroy(transform.gameObject);
 		}
 
 		float Vertical = Input.GetAxis("Vertical");
 		float Turn = Input.GetAxis("Horizontal");
 		//Movement and rotation values of ship set in moveDir
-		//moveDir = new Vector3(0, Vertical, 0);
-		//moveDir = transform.TransformDirection(moveDir);
-		//moveDir *= moveSpeed;
-		//transform.Rotate(Vector3.forward * -Turn * rotationSpeed);
-
-		//rigidbody movement
-		force = transform.up * Vertical * moveSpeed;
-		transform.Rotate(0, 0, -Turn * rotationSpeed);
-		rb.AddForce(force);
-		ClampVelocity();
-		Debug.Log(rb.velocity);
+		moveDir = new Vector3(0, Vertical, 0);
+		moveDir = transform.TransformDirection(moveDir);
+		moveDir *= moveSpeed;
+		transform.Rotate(Vector3.forward * -Turn * rotationSpeed);
 
 		//shooting
 		if(Input.GetKey(KeyCode.Space) && Time.time - lastShot > bulletTimer){
@@ -53,17 +48,8 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	void ClampVelocity(){
-		float x = Mathf.Clamp(rb.velocity.x, -moveSpeed, moveSpeed);
-		float y = Mathf.Clamp(rb.velocity.y, -moveSpeed, moveSpeed);
-
-		rb.velocity = new Vector3(x, y, 0);
-	}
-
 	void FixedUpdate(){
 		//Ship movement
-		//controller.Move(moveDir * Time.deltaTime);
-
-		//rigidbody movement
+		controller.Move(moveDir * Time.deltaTime);
 	}
 }
