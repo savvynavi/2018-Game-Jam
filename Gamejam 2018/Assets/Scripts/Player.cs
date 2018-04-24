@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
+//[RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour {
 
 	CharacterController controller = null;
+	Rigidbody rb = null;
 	Vector3 moveDir = Vector3.zero;
 	BoxCollider collider = null;
 	float lastShot = 0;
+	Vector3 force = Vector3.zero;
 
 	public float hp;
 	public float moveSpeed;
@@ -18,6 +20,7 @@ public class Player : MonoBehaviour {
 
 	void Start () {
 		controller = GetComponent<CharacterController>();
+		//rb = GetComponent<Rigidbody>();
 		collider = GetComponent<BoxCollider>();
 	}
 	
@@ -35,7 +38,12 @@ public class Player : MonoBehaviour {
 		moveDir = transform.TransformDirection(moveDir);
 		moveDir *= moveSpeed;
 		transform.Rotate(Vector3.forward * -Turn * rotationSpeed);
-		
+
+		//rigidbody movement
+		//force = transform.up * Vertical * moveSpeed;
+		//transform.Rotate(0, 0, -Turn * rotationSpeed);
+		//rb.AddForce(force);
+
 		//shooting
 		if(Input.GetKey(KeyCode.Space) && Time.time - lastShot > bulletTimer){
 			lastShot = Time.time;
@@ -43,8 +51,14 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	void ClampVelocity(){
+
+	}
+
 	void FixedUpdate(){
 		//Ship movement
 		controller.Move(moveDir * Time.deltaTime);
+
+		//rigidbody movement
 	}
 }
