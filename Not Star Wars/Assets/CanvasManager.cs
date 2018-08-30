@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CanvasManager : MonoBehaviour {
 
@@ -37,6 +38,10 @@ public class CanvasManager : MonoBehaviour {
     {
         Application.Quit();
     }
+
+	public void Restart() {
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
 
     public void Pause()
     {
