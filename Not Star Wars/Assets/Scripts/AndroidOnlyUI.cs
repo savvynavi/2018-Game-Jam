@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class AndroidOnlyUI : MonoBehaviour {
 
+#if UNITY_ANDROID
 	// Use this for initialization
 	void Start() {
-#if UNITY_ANDROID
+
 		DeactivateButtons();
 	}
+		public void ActivateButtons() {
+		gameObject.SetActive(true);
 
+	}
+
+	public void DeactivateButtons() {
+		gameObject.SetActive(false);
+	}
 #else
 	//if on pc, the buttons don't appear
 	void Start() { 
@@ -18,12 +26,5 @@ public class AndroidOnlyUI : MonoBehaviour {
 #endif
 	
 
-	public void ActivateButtons() {
-		gameObject.SetActive(true);
 
-	}
-
-	public void DeactivateButtons() {
-		gameObject.SetActive(false);
-	}
 }

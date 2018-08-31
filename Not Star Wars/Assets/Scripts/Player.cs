@@ -43,26 +43,25 @@ public class Player : MonoBehaviour {
 
 	void Update () {
 		//if dead, does nothing rn just destrpys player object
-		if(currHP <= 0){
+		if(currHP <= 0) {
 #if UNITY_ANDROID
 			casing.GetComponent<AndroidOnlyUI>().DeactivateButtons();
 			shootBtn.GetComponent<AndroidOnlyUI>().DeactivateButtons();
 #endif
 
 			audio.enabled = true;
-            audio.clip = explosionSound;
-            if (!exploded)
-            {
-                audio.loop = false;
-                audio.Play();
-                exploded = true;
-            }
+			audio.clip = explosionSound;
+			if(!exploded) {
+				audio.loop = false;
+				audio.Play();
+				exploded = true;
+			}
 			GetComponentInChildren<MeshRenderer>().enabled = false;
-            Time.timeScale = 0;
+			Time.timeScale = 0;
 			loseScreen.SetActive(true);
 		}
 
-        if (planetsCaptured == planetsToCapture)
+		if (planetsCaptured == planetsToCapture)
         {
             gameObject.GetComponent<ScoreTimer>().WinState();
         }
@@ -108,9 +107,20 @@ public class Player : MonoBehaviour {
 		//force = transform.up * Vertical * moveSpeed;
 		//transform.Rotate(0, 0, -Turn * rotationSpeed);
 		//rb.AddForce(force);
+
+#if UNITY_ANDROID
+		if(shootBtn.GetComponent<FireButton>().ButtonDown == true) {
+			Shooting();
+			Debug.Log("shooting player part");
+		}
+
+#else
+		
 		if(Input.GetKey(KeyCode.Space)) {
 			Shooting();
 		}
+
+#endif
 
 	}
 

@@ -40,6 +40,7 @@ public class Thumbstick : TouchTarget {
 
 	//while dragging, will move stick to point
 	public override void OnDrag(Vector3 mousePos) {
+
 		pos = mousePos - mouseDownPos;
 		pos.x = Mathf.Clamp(pos.x, -extents, extents);
 		pos.y = Mathf.Clamp(pos.y, -extents, extents);
